@@ -1,8 +1,8 @@
-package org.example.gamePackage.control;
+package org.example.game_package.control;
 
-import org.example.gamePackage.Handler;
-import org.example.gamePackage.ID;
-import org.example.gamePackage.objects.GameObject;
+import org.example.game_package.Handler;
+import org.example.game_package.ID;
+import org.example.game_package.objects.GameObject;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

@@ -1,7 +1,7 @@
-package org.example.gamePackage.objects;
+package org.example.game_package.objects;
 
-import org.example.gamePackage.Handler;
-import org.example.gamePackage.ID;
+import org.example.game_package.Handler;
+import org.example.game_package.ID;
 
 import java.awt.*;
 
@@ -47,7 +47,7 @@ public class Player extends GameObject {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.BLUE);
+        g.setColor(Color.YELLOW);
         g.fillRect(x, y, xBound, yBound);
     }
 

@@ -1,15 +1,16 @@
-package org.example.gamePackage.objects;
+package org.example.game_package.objects;
 
-import org.example.gamePackage.ID;
+import org.example.game_package.ID;
 
 import java.awt.*;
 
-public class Triangle extends GameObject {
+public class Box extends GameObject {
 
     private int xBound = 32;
     private int yBound = 32;
 
-    public Triangle(int x, int y, ID id) {
+
+    public Box(int x, int y, ID id) {
         super(x, y, id, null);
 
     }
@@ -20,9 +21,8 @@ public class Triangle extends GameObject {
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.RED);
-        g.drawRect(x, y, xBound, yBound);
-//        g.drawPolygon(new Polygon());
+        g.setColor(Color.BLACK);
+        g.fillRect(x, y, xBound, yBound);
     }
 
     public Rectangle getBounds() {

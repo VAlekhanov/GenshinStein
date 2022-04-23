@@ -4,11 +4,13 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 
-import org.example.gamePackage.Game;
+import org.example.game_package.Game;
+
+import java.io.IOException;
 
 public class App {
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         try {
             UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (Exception ex) {

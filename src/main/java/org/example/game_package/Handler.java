@@ -1,6 +1,6 @@
-package org.example.gamePackage;
+package org.example.game_package;
 
-import org.example.gamePackage.objects.GameObject;
+import org.example.game_package.objects.GameObject;
 
 import java.awt.*;
 import java.util.LinkedList;
