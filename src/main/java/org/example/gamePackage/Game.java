@@ -1,5 +1,9 @@
 package org.example.gamePackage;
 
+import org.example.gamePackage.control.KeyInput;
+import org.example.gamePackage.objects.Box;
+import org.example.gamePackage.objects.Player;
+import org.example.gamePackage.objects.Triangle;
 import org.example.windowGame.WindowGame;
 
 import java.awt.*;
@@ -11,20 +15,32 @@ public class Game extends Canvas implements Runnable {
     private static final int height = width / 12 * 9;
     private Thread thread;
     public boolean running = false;
+    private Handler handler;
 
-    public Game() {
+    public Game() throws InterruptedException {
         new WindowGame(width, height, title, this);
-    }
+        start();
 
-    public Game(GraphicsConfiguration config) {
-        super(config);
-        new WindowGame(width, height, title, this);
+        handler = new Handler();
+
+        this.addKeyListener(new KeyInput(handler));
+
+        handler.addObject(new Player(300, 300, ID.Player, handler));
+
+        handler.addObject(new Box(100, 100, ID.Block));
+        handler.addObject(new Triangle(500, 100, ID.Block));
+
     }
+//
+//    public Game(GraphicsConfiguration config) {
+//        super(config);
+//
+//    }
 
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
+        double amountOfTicks = 120.0;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -52,7 +68,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
-
+        handler.tick();
     }
 
     private void render() {
@@ -63,9 +79,14 @@ public class Game extends Canvas implements Runnable {
         }
 
         Graphics g = bufferStrategy.getDrawGraphics();
-        g.setColor(Color.MAGENTA);
+        //////////////
+
+        g.setColor(Color.gray);
         g.fillRect(0, 0, width, height);
 
+        handler.render(g);
+
+        //////////////
         g.dispose();
         bufferStrategy.show();
     }
