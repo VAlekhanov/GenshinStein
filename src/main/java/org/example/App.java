@@ -4,7 +4,7 @@ import com.formdev.flatlaf.FlatLightLaf;
 
 import javax.swing.*;
 
-import org.example.game_package.Game;
+import org.example.game_package.main.Game;
 
 import java.io.IOException;
 

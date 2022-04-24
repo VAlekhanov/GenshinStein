@@ -1,4 +1,4 @@
-package org.example.game_package;
+package org.example.game_package.main;
 
 import org.example.game_package.objects.GameObject;
 

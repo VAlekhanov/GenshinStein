@@ -1,6 +1,6 @@
 package org.example.windows_and_frames;
 
-import org.example.game_package.Game;
+import org.example.game_package.main.Game;
 
 import javax.swing.*;
 import java.awt.*;

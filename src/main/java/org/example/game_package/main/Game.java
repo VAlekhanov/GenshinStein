@@ -1,9 +1,7 @@
-package org.example.game_package;
+package org.example.game_package.main;
 
 import org.example.game_package.control.KeyInput;
-import org.example.game_package.objects.Block;
-import org.example.game_package.objects.Enemy;
-import org.example.game_package.objects.Player;
+import org.example.game_package.objects.*;
 import org.example.windows_and_frames.WindowGame;
 
 import java.awt.*;
@@ -30,21 +28,27 @@ public class Game extends Canvas implements Runnable {
         this.addKeyListener(new KeyInput(handler));
 
         BufferedImageLoader loader = new BufferedImageLoader();
-        String path = "../resources_game/maps/sprite.png";
-        level = loader.loadImage(path);
-        loadLevel(level);
+//        String path = "";
+        String path = "resources_game/maps/sprite.png";
+//        String path = "D:"+File.separator+"Projects"+File.separator+"IdeaProjects"+File.separator+"GenshinStein"+File.separator+"resources_game"+File.separator+"maps"+File.separator+"sprite.png";
+        if (new File(path).exists()) {
+            level = loader.loadImage(path);
+            loadLevel(level);
+        } else {
+            handler.addObject(new Player(300, 300, ID.Player, handler));
+            handler.addObject(new Enemy(300, 100, ID.Enemy, handler));
+            handler.addObject(new Box(100, 100, ID.Block));
+            handler.addObject(new Triangle(500, 100, ID.Block));
+        }
 
-//        handler.addObject(new Player(300, 300, ID.Player, handler));
-//        handler.addObject(new Enemy(300, 100, ID.Enemy, handler));
-//        handler.addObject(new Box(100, 100, ID.Block));
-//        handler.addObject(new Triangle(500, 100, ID.Block));
+
 
     }
 
     @Override
     public void run() {
         long lastTime = System.nanoTime();
-        double amountOfTicks = 120.0;
+        double amountOfTicks = 60.0;
         double ns = 1000000000 / amountOfTicks;
         double delta = 0;
         long timer = System.currentTimeMillis();
@@ -76,13 +80,13 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void render() {
-        BufferStrategy bufferStrategy = this.getBufferStrategy();
-        if (bufferStrategy == null) {
+        BufferStrategy bs = this.getBufferStrategy();
+        if (bs == null) {
             this.createBufferStrategy(3);
             return;
         }
 
-        Graphics g = bufferStrategy.getDrawGraphics();
+        Graphics g = bs.getDrawGraphics();
         //////////////
 
         g.setColor(Color.gray);
@@ -92,7 +96,7 @@ public class Game extends Canvas implements Runnable {
 
         //////////////
         g.dispose();
-        bufferStrategy.show();
+        bs.show();
     }
 
     public void loadLevel(BufferedImage image) {
@@ -106,11 +110,11 @@ public class Game extends Canvas implements Runnable {
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
 
-                if(red == 255){
-                    handler.addObject(new Block(xx*32,yy*32,ID.Block, handler));
+                if (red == 255) {
+                    handler.addObject(new Block(xx * 2, yy * 2, ID.Block, handler));
                 }
-                if(blue == 255){
-                    handler.addObject(new Player(xx*32,yy*32,ID.Block, handler));
+                if (blue == 255) {
+                    handler.addObject(new Player(xx * 2, yy * 2, ID.Player, handler));
                 }
             }
         }
