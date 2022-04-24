@@ -1,6 +1,6 @@
 package org.example.game_package.objects;
 
-import org.example.game_package.ID;
+import org.example.game_package.main.ID;
 
 import java.awt.*;
 
