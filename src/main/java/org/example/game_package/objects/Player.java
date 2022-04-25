@@ -1,5 +1,6 @@
 package org.example.game_package.objects;
 
+import org.example.game_package.MainConstants;
 import org.example.game_package.main.Handler;
 import org.example.game_package.main.ID;
 
@@ -7,10 +8,10 @@ import java.awt.*;
 
 public class Player extends GameObject {
 
+    Handler handler;
     private int xBound = 23;
     private int yBound = 23;
-    Handler handler;
-    private int step = 3;
+    private int playerStep = MainConstants.playerStep;
 
     public Player(int x, int y, ID id, Handler handler) {
         super(x, y, id, handler);
@@ -21,37 +22,52 @@ public class Player extends GameObject {
         x += velX;
         y += velY;
 
+        collision();
+
         if (handler.isUp()) {
-            velY = -step;
+            velY = -playerStep;
         } else if (!handler.isDown()) {
             velY = 0;
         }
 
         if (handler.isDown()) {
-            velY = step;
+            velY = playerStep;
         } else if (!handler.isUp()) {
             velY = 0;
         }
 
         if (handler.isRight()) {
-            velX = step;
+            velX = playerStep;
         } else if (!handler.isLeft()) {
             velX = 0;
         }
 
         if (handler.isLeft()) {
-            velX = -step;
+            velX = -playerStep;
         } else if (!handler.isRight()) {
             velX = 0;
         }
     }
 
+    public void collision() {
+        for (int i = 0; i < handler.objects.size(); i++) {
+            GameObject object = handler.objects.get(i);
+            if(object.getId() ==  ID.Block){
+                if(getBounds().intersects(object.getBounds())){
+                    x += velX - 1;
+                    y += velY - 1;
+
+                }
+            }
+        }
+    }
+
     public void render(Graphics g) {
-        g.setColor(Color.YELLOW);
+        g.setColor(Color.pink);
         g.fillRect(x, y, xBound, yBound);
     }
 
     public Rectangle getBounds() {
-        return new Rectangle(x,y,xBound,yBound);
+        return new Rectangle(x, y, xBound, yBound);
     }
 }

@@ -1,31 +1,25 @@
 package org.example.game_package.objects;
 
+import org.example.game_package.main.Handler;
 import org.example.game_package.main.ID;
 
 import java.awt.*;
 
 public class Box extends GameObject {
-
-    private int xBound = 32;
-    private int yBound = 32;
-
-
-    public Box(int x, int y, ID id) {
-        super(x, y, id, null);
-
+    public Box(int x, int y, ID id, Handler handler) {
+        super(x, y, id, handler);
     }
 
     public void tick() {
-        x += velX;
-        y += velY;
+
     }
 
     public void render(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(x, y, xBound, yBound);
+        g.setColor(Color.blue);
+        g.fillRect(x,y,32,32);
     }
 
     public Rectangle getBounds() {
-        return null;
+        return new Rectangle(x,y,32,32);
     }
 }

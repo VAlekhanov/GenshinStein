@@ -1,6 +1,8 @@
 package org.example.game_package.main;
 
+import org.example.game_package.MainConstants;
 import org.example.game_package.control.KeyInput;
+import org.example.game_package.control.MouseInput;
 import org.example.game_package.objects.*;
 import org.example.windows_and_frames.WindowGame;
 
@@ -11,24 +13,22 @@ import java.io.File;
 import java.io.IOException;
 
 public class Game extends Canvas implements Runnable {
-    private static final String title = "TY SUPER LOX";
-    private static final int width = 640;
-    private static final int height = width / 12 * 9;
     private Thread thread;
     public boolean running = false;
     private Handler handler;
     private BufferedImage level = null;
+    private Camera camera;
 
-    public Game() throws InterruptedException, IOException {
-        new WindowGame(width, height, title, this);
+    public Game() throws IOException {
+        new WindowGame(MainConstants.width, MainConstants.height, MainConstants.title, this);
         start();
 
         handler = new Handler();
-
+        camera = new Camera(0, 0);
         this.addKeyListener(new KeyInput(handler));
+        this.addMouseListener(new MouseInput(handler, camera));
 
         BufferedImageLoader loader = new BufferedImageLoader();
-//        String path = "";
         String path = "resources_game/maps/sprite.png";
 //        String path = "D:"+File.separator+"Projects"+File.separator+"IdeaProjects"+File.separator+"GenshinStein"+File.separator+"resources_game"+File.separator+"maps"+File.separator+"sprite.png";
         if (new File(path).exists()) {
@@ -37,10 +37,9 @@ public class Game extends Canvas implements Runnable {
         } else {
             handler.addObject(new Player(300, 300, ID.Player, handler));
             handler.addObject(new Enemy(300, 100, ID.Enemy, handler));
-            handler.addObject(new Box(100, 100, ID.Block));
+            handler.addObject(new Box(100, 100, ID.Block, handler));
             handler.addObject(new Triangle(500, 100, ID.Block));
         }
-
 
 
     }
@@ -62,7 +61,11 @@ public class Game extends Canvas implements Runnable {
                 delta--;
             }
             if (running) {
-                render();
+                try {
+                    render();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
             frames++;
 
@@ -76,23 +79,35 @@ public class Game extends Canvas implements Runnable {
     }
 
     private void tick() {
+
+        for (int i = 0; i < handler.objects.size(); i++) {
+            if (handler.objects.get(i).getId() == ID.Player) {
+                camera.tick(handler.objects.get(i));
+            }
+        }
         handler.tick();
     }
 
-    private void render() {
+    private void render() throws InterruptedException {
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
-            this.createBufferStrategy(3);
+            this.createBufferStrategy(MainConstants.countOfBuffers);
             return;
         }
 
         Graphics g = bs.getDrawGraphics();
+        Graphics2D graphics2D = (Graphics2D) g;
         //////////////
 
         g.setColor(Color.gray);
-        g.fillRect(0, 0, width, height);
+        g.fillRect(0, 0, MainConstants.width, MainConstants.height);
+
+        graphics2D.translate(-camera.getX(), -camera.getY());
 
         handler.render(g);
+
+        graphics2D.translate(camera.getX(), camera.getY());
+        Thread.sleep(MainConstants.threadSleepTime);
 
         //////////////
         g.dispose();
@@ -115,6 +130,9 @@ public class Game extends Canvas implements Runnable {
                 }
                 if (blue == 255) {
                     handler.addObject(new Player(xx * 2, yy * 2, ID.Player, handler));
+                }
+                if (green == 255) {
+                    handler.addObject(new Box(xx * 2, yy * 2, ID.Box, handler));
                 }
             }
         }

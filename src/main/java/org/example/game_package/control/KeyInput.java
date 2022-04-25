@@ -16,7 +16,7 @@ public class KeyInput extends KeyAdapter {
     }
 
     public void keyPressed(KeyEvent e) {
-        super.keyPressed(e);
+//        super.keyPressed(e);
         int key = e.getKeyCode();
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObject = handler.objects.get(i);
@@ -31,7 +31,7 @@ public class KeyInput extends KeyAdapter {
     }
 
     public void keyReleased(KeyEvent e) {
-        super.keyReleased(e);
+//        super.keyReleased(e);
         int key = e.getKeyCode();
         for (int i = 0; i < handler.objects.size(); i++) {
             GameObject tempObject = handler.objects.get(i);
