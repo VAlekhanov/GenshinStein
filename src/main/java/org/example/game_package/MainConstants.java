@@ -7,4 +7,6 @@ public class MainConstants {
     public static int countOfBuffers = 3;
     public static long threadSleepTime = 30l;
     public static int playerStep = 3;
+    public static int enemyStep = 50;
+    public static final String path = "resources_game/maps/sprite.png";
 }

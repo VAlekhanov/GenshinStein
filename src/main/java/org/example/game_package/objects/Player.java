@@ -67,6 +67,7 @@ public class Player extends GameObject {
         g.fillRect(x, y, xBound, yBound);
     }
 
+    @Override
     public Rectangle getBounds() {
         return new Rectangle(x, y, xBound, yBound);
     }

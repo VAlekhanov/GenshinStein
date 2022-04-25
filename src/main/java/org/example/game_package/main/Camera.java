@@ -8,10 +8,13 @@ public class Camera {
     private float x, y;
     private static final int width = MainConstants.width;
     private static final int height = MainConstants.height;
+    private int imageWidth, imageHeight;
 
-    public Camera(float x, float y) {
+    public Camera(float x, float y,int imageWidth,int imageHeight) {
         this.x = x;
         this.y = y;
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
     }
 
     public void tick(GameObject object) {
@@ -20,9 +23,9 @@ public class Camera {
         y += (((object.getY() - y) - 370 / 2) * 0.0035f);
 
         if (x <= 0) x = 0;
-        if (x >= width) x = width;
+        if (x >= imageWidth) x = width;
         if (y <= 0) y = 0;
-        if (y >= height) y = height;
+        if (y >= imageHeight) y = height;
     }
 
     public float getX() {

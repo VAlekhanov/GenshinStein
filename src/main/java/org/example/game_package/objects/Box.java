@@ -19,6 +19,7 @@ public class Box extends GameObject {
         g.fillRect(x,y,32,32);
     }
 
+    @Override
     public Rectangle getBounds() {
         return new Rectangle(x,y,32,32);
     }

@@ -25,7 +25,7 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_A || key == KeyEvent.VK_LEFT) handler.setLeft(true);
                 if (key == KeyEvent.VK_S || key == KeyEvent.VK_DOWN) handler.setDown(true);
                 if (key == KeyEvent.VK_D || key == KeyEvent.VK_RIGHT) handler.setRight(true);
-
+//                System.out.println("x:" + tempObject.getX() + " y:"+ tempObject.getY());
             }
         }
     }

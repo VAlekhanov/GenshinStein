@@ -35,19 +35,24 @@ public class Bullet extends GameObject {
                     handler.removeObject(this);
                 }
             }
-        }
-    }
-
-    public void  outOfBounds(){
-        for (int i = 0; i < handler.objects.size(); i++) {
-            GameObject object = handler.objects.get(i);
-            if (object.getId() == ID.Box) {
-                if (object.getX() >= MainConstants.width || object.getY() >= MainConstants.height || object.getX() <= 0 || object.getY() <= 0) {
-                    handler.removeObject(object);
+            if (object.getId() == ID.Block) {
+                if (getBounds().intersects(object.getBounds())) {
                     handler.removeObject(this);
                 }
             }
+            if (object.getId() == ID.Enemy) {
+                if (getBounds().intersects(object.getBounds())) {
+                    handler.removeObject(object);
+                    handler.removeObject(this);;
+                }
+            }
         }
+    }
+
+    public void outOfBounds() {
+//        if (this.getX() >= MainConstants.width || this.getY() >= MainConstants.height || this.getX() <= 0 || this.getY() <= 0) {
+//            handler.removeObject(this);
+//        }
     }
 
     public void render(Graphics g) {
@@ -55,6 +60,7 @@ public class Bullet extends GameObject {
         g.fillOval(x, y, 1, 1);
     }
 
+    @Override
     public Rectangle getBounds() {
         return new Rectangle(x, y, 1, 1);
     }

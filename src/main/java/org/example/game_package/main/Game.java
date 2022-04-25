@@ -18,21 +18,27 @@ public class Game extends Canvas implements Runnable {
     private Handler handler;
     private BufferedImage level = null;
     private Camera camera;
+    private int imageWidth;
+    private int imageHeight;
 
     public Game() throws IOException {
+        BufferedImageLoader loader = new BufferedImageLoader();
+        level = loader.loadImage(MainConstants.path);
+        imageWidth = level.getWidth();
+        imageHeight = level.getHeight();
         new WindowGame(MainConstants.width, MainConstants.height, MainConstants.title, this);
+//        new WindowGame(imageWidth, imageHeight, MainConstants.title, this);
         start();
 
         handler = new Handler();
-        camera = new Camera(0, 0);
+        camera = new Camera(0, 0,MainConstants.width,MainConstants.height);
+//        camera = new Camera(0, 0,imageWidth,imageHeight);
         this.addKeyListener(new KeyInput(handler));
         this.addMouseListener(new MouseInput(handler, camera));
 
-        BufferedImageLoader loader = new BufferedImageLoader();
-        String path = "resources_game/maps/sprite.png";
 //        String path = "D:"+File.separator+"Projects"+File.separator+"IdeaProjects"+File.separator+"GenshinStein"+File.separator+"resources_game"+File.separator+"maps"+File.separator+"sprite.png";
-        if (new File(path).exists()) {
-            level = loader.loadImage(path);
+        if (new File(MainConstants.path).exists()) {
+//            level = loader.loadImage(path);
             loadLevel(level);
         } else {
             handler.addObject(new Player(300, 300, ID.Player, handler));
@@ -115,24 +121,28 @@ public class Game extends Canvas implements Runnable {
     }
 
     public void loadLevel(BufferedImage image) {
-        int width = image.getWidth();
-        int height = image.getHeight();
+        imageWidth = image.getWidth();
+        imageHeight = image.getHeight();
+        int consta = 2;
 
-        for (int xx = 0; xx < width; xx++) {
-            for (int yy = 0; yy < height; yy++) {
+        for (int xx = 0; xx < imageWidth; xx++) {
+            for (int yy = 0; yy < imageHeight; yy++) {
                 int pixel = image.getRGB(xx, yy);
                 int red = (pixel >> 16) & 0xff;
                 int green = (pixel >> 8) & 0xff;
                 int blue = (pixel) & 0xff;
 
                 if (red == 255) {
-                    handler.addObject(new Block(xx * 2, yy * 2, ID.Block, handler));
+                    handler.addObject(new Block(xx * consta, yy * consta, ID.Block, handler));
                 }
                 if (blue == 255) {
-                    handler.addObject(new Player(xx * 2, yy * 2, ID.Player, handler));
+                    handler.addObject(new Player(xx * consta, yy * consta, ID.Player, handler));
                 }
                 if (green == 255) {
-                    handler.addObject(new Box(xx * 2, yy * 2, ID.Box, handler));
+                    handler.addObject(new Box(xx * consta, yy * consta, ID.Box, handler));
+                }
+                if (red == 155) {
+                    handler.addObject(new Enemy(xx * consta, yy * consta, ID.Enemy, handler));
                 }
             }
         }
